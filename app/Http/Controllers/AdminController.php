@@ -10,6 +10,7 @@ use App\Models\billItem;
 use App\Models\Catimage;
 use App\Models\customer;
 use App\Models\image;
+use App\Models\Carousel;
 use App\Models\dairy;
 
 class AdminController
@@ -30,6 +31,10 @@ class AdminController
             $bill->orderplaced='D';
             $bill->save();
             return redirect('admin');
+    }
+    public function home(){
+        $carausel= Carousel::all();
+        return view ('adminviews.home',["carousel"=>$carausel]);
     }
      public function billinfo($id)
 {
@@ -57,7 +62,8 @@ class AdminController
     public function new(){
         $class=classification::all();
         $data=Category::all();
-        return view('adminviews.addnew',["cat"=>$data,"class"=>$class]);
+        $product=products::all();
+        return view('adminviews.addnew',["cat"=>$data,"class"=>$class,"product"=>$product]);
     }
      public function newadd(Request $request){
        if($request->submit=='categery'){
@@ -81,7 +87,7 @@ class AdminController
         return redirect()->back()->with('status','C');
        }
        else if ($request->submit=='product'){
-         $max = products::max('productId')+1;
+        $max = products::max('productId')+1;
         $product=new products();
         $product->productId = $max;
         $product->name = $request->name;
@@ -106,8 +112,35 @@ class AdminController
         $img->save();
             return redirect()->back()->with('status','P');
        }
+       elseif($request->submit=='carousel'){
+            $carousel=new Carousel();
+            $carousel->image=base64_encode(file_get_contents($request->image->getRealpath()));
+            $carousel->Name=$request->name;
+            $carousel->discription=$request->discription;
+            $carousel->prodId=$request->id;
+            $carousel->prodId=$request->id;
+            $carousel->save();
+            return redirect()->back()->with('status','S');
+       }
        
             return redirect()->back()->with('status','E');
+    }
+    public function homeupdate(Request $request,$id){
+        if($request["update"]=='update'){
+            $car=Carousel::where('id',$id)->first();
+            $car->Name=$request->name;
+            $car->discription=$request->discription;
+            if ($request->hasFile('image')){
+                $car->image=base64_encode(file_get_contents($request->image->getRealpath()));
+            }
+            $car->save();
+            return redirect()->back()->with('status','CU');
+        }
+        elseif($request["update"]=='delete'){
+            $car=Carousel::where('id',$id)->first();
+            $car->delete();
+            return redirect()->back()->with('status','CD');
+        }
     }
     public function products(){
         $data=products::all();

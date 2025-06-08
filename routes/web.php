@@ -10,10 +10,14 @@ use App\Http\Controllers\DairyController;
 Route::get('/', [CustomerController::class, 'index']);
 Route::get('/logout', [CustomerController::class, 'logout']);
 Route::post('/', [CustomerController::class, 'indexCheck']);
-Route::get('/categery', [CategoryController::class, 'categery']);
+Route::get('/home', [ProductsController::class, 'home']);
+Route::get('/category', [CategoryController::class, 'categery']);
 
 Route::get('/products/{cid}', [ProductsController::class, 'products']);
-Route::get('/products', [ProductsController::class, 'productsall']);
+Route::get('/products', [ProductsController::class, 'productsall']); 
+
+Route::get('/product/{id}', [ProductsController::class, 'product']);
+
 
 Route::get('/register', [CustomerController::class, 'register']);
 Route::post('/register', [CustomerController::class, 'registerit']);
@@ -29,6 +33,9 @@ Route::get('/history',[BillsController::class,'allbills']);
 
 Route::prefix('admin')->group(function(){
     Route::get('/', [AdminController::class, 'admin']);
+    
+    Route::get('/home', [AdminController::class, 'home']);
+    Route::post('/home/{id}', [AdminController::class, 'homeupdate']);
 
     Route::get('/new', [AdminController::class, 'new']);
     Route::post('/new', [AdminController::class, 'newadd']);

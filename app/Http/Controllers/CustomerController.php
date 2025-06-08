@@ -10,7 +10,7 @@ class CustomerController
     public function index(Request $request)
     {
         if(session()->has('id')){
-            return redirect('/categery');
+            return redirect('/home');
         }
         return view('login',['msg'=>""]);
     }
@@ -22,7 +22,7 @@ class CustomerController
         if($user) {
             if($pass==$user["password"])   {
                 session()->put(['id'=>$user->id]);
-                return redirect('/categery');
+                return redirect('/home');
             } 
             
             else return view('login',['msg'=>"Wrong id and password"]);  

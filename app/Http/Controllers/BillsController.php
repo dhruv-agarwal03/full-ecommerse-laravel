@@ -15,7 +15,7 @@ class BillsController
 //id	billId	productId	qty	sellprice	gst	created_at	updated_at	
     public function __construct()
     {
-        if (!session()->has('id')) {
+        if (!session()->has('id') || session()->get('id')=='admin') {
             return redirect('/')->send(); // Prevent unauthorized access
         }
     }

@@ -5,20 +5,31 @@ namespace App\Http\Controllers;
 use App\Models\products;
 use App\Models\image;
 use App\Models\customer;
+use App\Models\Carousel;
 use Illuminate\Http\Request;
 
 class ProductsController
 {
     public function __construct()
     {
-        if (!session()->has('id')) {
+        if (!session()->has('id') || session()->get('id')=='admin') {
             return redirect('/')->send(); // Prevent unauthorized access
         }
+    }
+    public function home(){
+        $cau=Carousel::all();
+        return view ('home',["carousel"=>$cau]);
     }
     public function products($id)
     {
         $data = products::where('category', $id)->get();
         return $this->show($data);
+    }
+    public function product($id)
+    {
+        $data = products::where('productId', $id)->first();
+        $image = image::where('product_id', $id)->first()->image;
+        return view('product',['product'=>$data,'image'=>$image]);
     }
     
     public function productsall()
@@ -41,6 +52,7 @@ class ProductsController
             else    $sp=$da["sellingPrice"];    
             array_push($ans,[
                 'image' => $imgrow ? $imgrow->image : null,
+                'name' => $da->name,
                 'product_id'=>$da->productId,
                 'HSNcode'=>$da->HSNcode,
                 'costprice'=>$da->costprice,

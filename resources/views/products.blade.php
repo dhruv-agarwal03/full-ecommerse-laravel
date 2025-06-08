@@ -149,15 +149,20 @@
     });
 </script>
 
-<div class="container">
-    <div class="row">
+<div class="">
+    <div style="position:fixed; right:20px;bottom:10px "> <a href="/cart"><img src="{{asset('images/cart.jpg')}}" width="100px"/></a> </div>
+    <div class="row m-2">
         @foreach($data as $pro)
-        <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-6 p-3 border mb-3" data-product-id="{{ $pro['product_id'] }}">
+        <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-6 p-3 " data-product-id="{{ $pro['product_id'] }}">
+            
             <div>
-                <img src="data:image/png;base64,{{ $pro['image'] }}" height="100px"/>
+                <a href="product/{{$pro['product_id']}}">
+                <img src="data:image/png;base64,{{ $pro['image'] }}" width="100%"/>
+</a>
             </div>
 
             <div>
+                <b class="h3 m3" >{{$pro["name"]}}</b>
                 @if($pro['MRP'] != $pro['sellingPrice'])
                 <div class="text-danger h3"><del>&#8377;{{ $pro['MRP'] }}</del></div>
                 <span class="text-success h3">&#8377;{{ $pro['sellingPrice'] }}</span><br/>
@@ -196,4 +201,5 @@
         </div>
         @endforeach
     </div>
+    
 </div>

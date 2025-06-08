@@ -22,6 +22,8 @@
             categery added succsussfully
           @elseif(session('status') == 'P')
             Product added succsussfully
+          @elseif(session('status') == 'S')
+            Carausel added succsussfully
           @elseif(session('status') == 'E')
             Something went wrong!
           @endif
@@ -59,6 +61,39 @@
                             </div>
                         </div>
                         <button type="submit" name="submit" value="categery" class="btn btn-info m-3">Update</button>
+                    </form>
+                </div>
+            </div>
+            <hr/>
+            <div class="card">
+                <div class="card-header h3">New Carausel</div>
+                <div class="card-body">
+                    <h5 class="card-title">Enter the details</h5>
+                    <form method="post" enctype="multipart/form-data" action="/admin/new">
+                        <div class="form-group">
+                            <div>
+                                <label for="name">Name of Carausel</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div>
+                                <label for="options">Choose an Id</label>
+                                <input list="choices" id="options" name="id" placeholder="Select or type..." class="form-control">
+                                <datalist id="choices">
+                                    @foreach($product as $product)
+                                        <option value="{{$product['productId']}}">{{$product["name"]}}</option>
+                                    @endforeach
+                                </datalist>
+                            </div>
+                            <div>
+                                <label for="disc">Small discription</label><br>
+                                <textarea class="form-control" name="discription" id="disc" required></textarea>
+                            </div>
+                            <div>
+                                <label for="exampleFormControlFile1">Enter the image</label><br>
+                                <input type="file" class="form-control-file" name="image" id="exampleFormControlFile1" accept="image/*" required>
+                            </div>
+                        </div>
+                        <button type="submit" name="submit" value="carousel" class="btn btn-info m-3">Update</button>
                     </form>
                 </div>
             </div>
@@ -107,10 +142,6 @@
                                         <option value="{{$cat['catId']}}">{{$cat['name']}}</option>
                                     @endforeach  
                                 </select>
-                            <label>Priority</label>
-                            <input type="text" class="form-control" name="priorty" placeholder="Enter only digits">
-
-
                             <label>Priority</label>
                             <input type="text" class="form-control" name="priorty" placeholder="Enter only digits">
 

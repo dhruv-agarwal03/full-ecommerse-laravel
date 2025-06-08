@@ -13,7 +13,7 @@ class CategoryController
 {
     public function __construct()
     {
-        if (!session()->has('id')) {
+        if (!session()->has('id') || session()->get('id')=='admin' ) {
             return redirect('/')->send(); // Prevent unauthorized access
         }
     }
